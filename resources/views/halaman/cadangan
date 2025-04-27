@@ -1,0 +1,270 @@
+note dibawah. Halaman cart
+@extends('mainlayout')
+
+@section('content')
+<div class="container py-5">
+    <h2 class="text-center mb-4"><em>Checkout</em></h2>
+    
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    @if(count($cart) > 0)
+        <div class="row">
+            <!-- Bagian Kiri - Daftar Barang & Total -->
+            <div class="col-md-8">
+                @foreach($cart as $id => $item)
+                <div class="border-bottom py-3 d-flex align-items-center">
+                    <img src="{{ asset('storage/' . $item['image']) }}" alt="{{ $item['name'] }}" width="100" class="me-3">
+                    
+                    <div class="flex-grow-1">
+                        <h5>{{ $item['name'] }}</h5>
+                        <p class="text-muted">Rp{{ number_format($item['price'], 0, ',', '.') }}</p>
+                        <div class="d-inline-flex align-items-center">
+                            <a href="{{ route('cart.decrease', $id) }}" class="btn btn-outline-secondary btn-sm">−</a>
+                            <input type="text" class="form-control text-center mx-1" value="{{ $item['quantity'] }}" style="width: 50px;" readonly>
+                            <a href="{{ route('cart.increase', $id) }}" class="btn btn-outline-secondary btn-sm">+</a>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <p class="mb-0 me-3"><strong>Rp{{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}</strong></p>
+                        <a href="{{ route('cart.remove', $id) }}">
+                            <i class="fas fa-trash-alt" style="color: gray; font-size: 18px;"></i>
+                        </a>
+                    </div>
+                </div>
+                @endforeach
+
+                <!-- Input Catatan (Di Sebelah Kiri) -->
+                <div class="mb-3">
+                    <label>Catatan:</label>
+                    <textarea id="note" class="form-control">{{ old('note', session('checkout_data.note')) }}</textarea>
+                </div>
+            </div>
+
+            <!-- Bagian Kanan - Metode Pengiriman -->
+            <div class="col-md-4">
+                <h5><em>Metode Pengiriman</em></h5>
+                <hr>
+                <form id="checkoutForm" action="{{ route('checkout.process') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="total" value="{{ $subtotal }}">
+                    
+                    <!-- Input Hidden untuk Menyimpan Catatan -->
+                    <input type="hidden" name="note" id="hiddenNote">
+
+                    <div class="mb-3">
+                        <label>Metode Pengiriman:</label>
+                        <select id="shippingMethod" name="shipping_method" class="form-control" required>
+                            <option value="pickup" {{ old('shipping_method') == 'pickup' ? 'selected' : '' }}>Ambil di Toko</option>
+                            <option value="delivery" {{ old('shipping_method') == 'delivery' ? 'selected' : '' }}>Antar ke Alamat</option>
+                        </select>
+                    </div>
+
+                    <div id="addressField" class="mb-3" style="display: none;">
+                        <label>Alamat Pengiriman:</label>
+                        <textarea name="address" class="form-control"></textarea>
+                    </div>
+
+                    <div id="storeAddress" class="mb-3" style="display: none;">
+                        <label>Alamat Toko:</label>
+                        <p class="border p-2">Jl. Contoh No.123, Kota XYZ</p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Lanjut ke Pembayaran</button>
+                </form>
+            </div>
+        </div>
+    @else
+        <p class="text-center">Keranjang Anda kosong.</p>
+        <div class="text-center">
+            <a href="{{ route('menu') }}" class="btn btn-primary">Lihat Menu</a>
+        </div>
+    @endif
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var shippingMethod = document.getElementById('shippingMethod');
+    var addressField = document.getElementById('addressField');
+    var storeAddress = document.getElementById('storeAddress');
+    var noteTextarea = document.getElementById('note');
+    var hiddenNoteInput = document.getElementById('hiddenNote');
+    var checkoutForm = document.getElementById('checkoutForm');
+
+    function updateAddressField() {
+        if (shippingMethod.value === 'delivery') {
+            addressField.style.display = 'block';
+            storeAddress.style.display = 'none';
+        } else {
+            addressField.style.display = 'none';
+            storeAddress.style.display = 'block';
+        }
+    }
+
+    // Menyimpan nilai catatan sebelum submit
+    checkoutForm.addEventListener('submit', function() {
+        hiddenNoteInput.value = noteTextarea.value;
+    });
+
+    shippingMethod.addEventListener('change', updateAddressField);
+    updateAddressField(); // Panggil saat halaman dimuat untuk set default
+});
+</script>
+@endsection
+
+
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Bouquet;
+use App\Models\Transaction; // Tambahkan ini
+
+use Log;
+
+class CheckoutController extends Controller
+{
+    // Tambah item ke keranjang (hanya jika user login)
+    public function addToCart($id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        $menu = Bouquet::findOrFail($id);
+        $cart = Session::get('cart', []);
+
+        if (isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+        } else {
+            $cart[$id] = [
+                "name" => $menu->name,
+                "price" => $menu->price,
+                "quantity" => 1,
+                "image" => $menu->image
+            ];
+        }
+
+        Session::put('cart', $cart);
+        return redirect()->route('cart.show')->with('success', 'Item berhasil ditambahkan.');
+    }
+
+    // Menampilkan halaman keranjang
+    public function showCart()
+    {
+        $cart = session('cart', []);
+        $subtotal = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
+        $cart_note = session('cart_note', '');
+
+        return view('halaman.cart', compact('cart', 'subtotal', 'cart_note'));
+    }
+
+    // Simpan catatan pengguna
+    public function saveNote(Request $request)
+    {
+        session(['cart_note' => $request->note]);
+        return back()->with('success', 'Catatan tersimpan.');
+    }
+
+    
+    // Proses checkout
+    public function processCheckout(Request $request)
+    {
+        $request->validate([
+            'shipping_method' => 'required',
+            'address' => $request->shipping_method === 'delivery' ? 'required' : '',
+        ]);
+
+        $cart = session('cart', []);
+        $subtotal = collect($cart)->sum(fn($item) => $item['price'] * $item['quantity']);
+        $shipping_method = $request->shipping_method;
+        $address = $shipping_method === 'delivery' ? $request->address : null;
+
+        session(['checkout_data' => [
+            'subtotal' => $subtotal,
+            'shipping_method' => $shipping_method,
+            'address' => $address,
+            'note' => $request->note
+        ]]);
+
+        return redirect()->route('payment.page');
+    }
+
+    // Menampilkan halaman pembayaran
+    public function paymentPage()
+    {
+        $checkout_data = session('checkout_data', []);
+        return view('halaman.payment', compact('checkout_data'));
+    }
+
+    // Mendapatkan ongkir dari API GraphHopper
+    public function getShippingCost(Request $request)
+    {
+        $address = $request->query('address');
+        if (!$address) {
+            return response()->json(['shipping_cost' => 0]);
+        }
+
+        $destination = $this->getCoordinates($address);
+        if (!$destination) {
+            return response()->json(['shipping_cost' => 15000]);
+        }
+
+        $apiKey = config('services.graphhopper.api_key');
+        $storeLocation = '-7.5916574,110.7964212'; // Lokasi toko
+        $url = "https://graphhopper.com/api/1/route?point=$storeLocation&point=$destination&profile=car&key=$apiKey";
+
+        $response = Http::get($url);
+        $data = $response->json();
+
+        $shippingCost = isset($data['paths'][0]['distance'])
+            ? max(10000, ($data['paths'][0]['distance'] / 1000) * 2000)
+            : 15000;
+
+        return response()->json(['shipping_cost' => $shippingCost]);
+    }
+
+    // Konversi alamat ke koordinat
+    private function getCoordinates($address)
+    {
+        $apiKey = config('services.graphhopper.api_key');
+        $url = "https://graphhopper.com/api/1/geocode?q=" . urlencode($address) . "&key=$apiKey";
+
+        $response = Http::get($url);
+        $data = $response->json();
+
+        return $data['hits'][0]['point']['lat'] . ',' . $data['hits'][0]['point']['lng'] ?? null;
+    }
+
+    // Proses pembayaran
+    use Illuminate\Support\Facades\DB;
+
+public function processPayment(Request $request) {
+    // Validasi input
+    $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'bouquet_id' => 'required|exists:bouquets,id',
+        'total_amount' => 'required|numeric|min:0',
+        'payment_method' => 'required|in:bank_transfer,qris,cash',
+    ]);
+
+    // Simpan transaksi ke database
+    DB::table('transactions')->insert([
+        'user_id' => $request->user_id,
+        'bouquet_id' => $request->bouquet_id,
+        'total_amount' => $request->total_amount,
+        'payment_method' => $request->payment_method,
+        'status' => 'pending',
+        'created_at' => now(),
+        'updated_at' => now()
+    ]);
+
+    return response()->json(['message' => 'Transaksi berhasil disimpan!']);
+}
+
+}
