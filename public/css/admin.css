@@ -1,0 +1,170 @@
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background-color: #93C6E7;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .nav-link {
+            color: #000 !important;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .navbar-custom .nav-link:hover {
+            color: #FFDBDB !important;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #ffffff;
+            color: white;
+        }
+
+        .footer-link {
+            color: #B7C9F2;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        .social-icon {
+            color: white;
+            font-size: 1.2rem;
+            margin: 0 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-icon:hover {
+            color: #FFDBDB;
+        }
+
+        .payment-icon {
+            height: 30px;
+            margin: 0 5px;
+        }
+
+        .copyright {
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+        h1 {
+            font-family: "EB Garamond", serif; /* Different font family */
+            font-size: 3.5rem;  /* Bigger font size */
+            color: #000;
+            font-weight: 700;  /* Bolder font weight */
+            margin-bottom: 10px;
+        }
+        
+        /* Paragraph Styling */
+        p {
+            font-family: 'Arial', sans-serif;  /* Different font family */
+            font-size: 1.25rem;  /* Slightly larger font size */
+            color: #505354;
+            line-height: 1.5;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .card-body {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .card-text {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        /* Card Icon */
+        .card i {
+            color: white;
+        }
+        
+        /* Statistics Section */
+        .row.mt-4 {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .col-md-4 {
+            margin-bottom: 20px;
+        }
+        
+        /* Sales Chart */
+        h4 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #52a0f4;
+            margin-bottom: 20px;
+        }
+        
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Activity Table */
+        table {
+            width: 100%;
+            margin-top: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        table thead {
+            background-color: #1679AB;
+            color: white;
+        }
+        
+        table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        table tbody tr:hover {
+            background-color: #e9ecef;
+        }
+        
+        table th, table td {
+            padding: 15px;
+            text-align: center;
+        }
+        
+        table th {
+            font-size: 1.1rem;
+        }
+        
+        table td {
+            font-size: 1rem;
+        }
+        
+        /* No Activity Message */
+        p.no-activity {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #6c757d;
+        }

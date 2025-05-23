@@ -1,12 +1,12 @@
 @extends('mainlayout')
 
 @section('content')
-<div class="container">
-    <h2 class="mb-4">Tambah Menu Bunga</h2>
-    
+<div class="container py-5">
+    <h2 class="text-center mb-4">Add Products</h2>
+
     @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
+        <div class="alert alert-danger w-100 mx-auto" style="max-width: 600px;">
+            <ul class="mb-0">
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
@@ -14,28 +14,41 @@
         </div>
     @endif
 
-    <form action="{{ route('bouquet.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <label for="name">Nama Buket:</label>
-        <input type="text" name="name" id="name" required>
+    <div class="order-card">
+        <form action="{{ route('bouquet.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
 
-        <label for="description">Deskripsi:</label>
-        <textarea name="description" id="description" required></textarea>
+            <div class="mb-3 text-start">
+                <label for="name" class="form-label">Products Name:</label>
+                <input type="text" name="name" id="name" class="form-control" required>
+            </div>
 
-        <label for="price">Harga:</label>
-        <input type="number" name="price" id="price" required>
+            <div class="mb-3 text-start">
+                <label for="description" class="form-label">Description:</label>
+                <textarea name="description" id="description" class="form-control" rows="4" required></textarea>
+            </div>
 
-        <label for="category">Kategori:</label>
-        <select name="category" id="category" required>
-            <option value="Bunga">Bunga</option>
-            <option value="Buket">Buket</option>
-            <option value="Kertas">Kertas</option>
-        </select>
+            <div class="mb-3 text-start">
+                <label for="price" class="form-label">Price:</label>
+                <input type="number" name="price" id="price" class="form-control" min="0" required>
+            </div>
 
-        <label for="image">Gambar:</label>
-        <input type="file" name="image" id="image" required>
+            <div class="mb-3 text-start">
+                <label for="category" class="form-label">Category:</label>
+                <select name="category" id="category" class="form-select" required>
+                    <option value="Bunga">Flower</option>
+                    <option value="Buket">Bouquet</option>
+                    <option value="Kertas">Papper Wrap</option>
+                </select>
+            </div>
 
-        <button type="submit">Tambah</button>
-    </form>
+            <div class="mb-4 text-start">
+                <label for="image" class="form-label">Image:</label>
+                <input type="file" name="image" id="image" class="form-control" required>
+            </div>
+
+            <button type="submit" class="custom-btn">Add</button>
+        </form>
+    </div>
 </div>
 @endsection

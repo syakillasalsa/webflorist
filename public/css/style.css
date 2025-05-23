@@ -5,19 +5,18 @@
 
 /* Styling Navbar */
 .ellipse-nav {
-    background-color: #f4f0e4;
-    width: 80%; /* Sesuaikan dengan lebar yang diinginkan */
-    max-width: 600px; /* Batasi ukuran maksimum */
-    padding: 15px 20px; /* Padding atas-bawah & kiri-kanan */
+    padding: 15px 20px;
     text-align: center;
-    border-radius: 50px; /* Membentuk elips */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Efek bayangan */
     position: relative;
-    margin: 20px auto; /* Memastikan selalu berada di tengah */
+    margin: 0; /* atau sesuaikan, bisa auto kalau mau tetap tengah */
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;      /* Pakai full width */
+    max-width: none;  /* Tidak dibatasi panjangnya */
+    border-radius: 0; /* Hilangkan efek elips */
 }
+
 
 /* Pastikan ul dalam navbar juga rata tengah */
 .ellipse-nav ul {
@@ -36,21 +35,123 @@
     text-decoration: none;
     padding: 10px 15px;
     border-radius: 25px; /* Membuat efek bulat */
-    transition: background 0.3s ease, color 0.3s ease;
+    transition: color 0.3s ease;
+    position: relative; /* Dibutuhkan untuk garis bawah */
 }
 
-/* Hover dan Active State */
-.ellipse-nav .nav-link:hover, 
-.ellipse-nav .nav-link.active {
-    background-color: #efd58c;
-    color: white;
-}
-
-.carousel-item video, 
-.carousel-item img {
+/* Hover dan Active State (Hanya Garis Bawah, Tanpa Background Color) */
+.ellipse-nav .nav-link:hover::after, 
+.ellipse-nav .nav-link.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px; /* Posisi garis sedikit di bawah teks */
     width: 100%;
-    height: 500px; /* Sesuaikan tinggi sesuai kebutuhan */
-    object-fit: cover; /* Pastikan isi gambar/video memenuhi area */
+    height: 2px; /* Ketebalan garis */
+    background-color: #aa7073; /* Warna garis */
+    transition: width 0.3s ease-in-out;
+}
+
+
+.carousel-item video{
+    width: 100%;
+    height: 500px; /* Diperbesar agar lebih panjang */
+    object-fit: cover; /* Mengisi area tanpa distorsi */
+
+}
+/* Tombol Navigasi Carousel di Tengah */
+.carousel-control-prev, .carousel-control-next {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5%;
+}
+
+h2 {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 8px;
+    font-family: "Cormorant Garamond", serif;
+}
+
+h2::after {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: #333;
+    margin: 10px auto;
+}
+h2.text-center {
+    margin-top: -30px; /* Atur sesuai kebutuhan */
+}
+h5{
+    font-family: "Bodoni Moda", serif;
+}
+.about-text p{
+    font-family: "Athiti", sans-serif;
+    font-size: 16px !important;
+    text-align: justify;
+}
+/*styling yg new*/
+.card-img-top {
+    width: 100%;       /* Lebar penuh sesuai parent */
+    height: 400px;     /* Atur tinggi yang sama untuk semua */
+    object-fit: cover; /* Potong gambar agar tetap proporsional */
+    border-radius: 10px; /* Agar sudut tetap rapi */
+}
+
+/* button order */
+/* Style Button "Order Here" */
+.btn-order {
+    background-color: #FF8282 !important; /* Paksa warna muncul */
+    color: white !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 12px 40px;
+    border: none;
+    display: inline-block;
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 2px;
+    transition: all 0.3s ease-in-out;
+    text-decoration: none !important; /* Ini untuk menghapus garis bawah */
+}
+
+.btn-order:hover {
+    background-color: #FF9A9A!important; /* Warna sedikit lebih gelap saat hover */
+    color: white!important;
+}
+
+.img {
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+}
+
+.img-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 0.5rem;
+}
+
+.img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+/* Untuk paragraf justify */
+.justify-text {
+    text-align: justify;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    .img {
+        margin-top: 1.5rem;
+    }
 }
 
 
@@ -120,8 +221,8 @@ html, body {
     padding: 12px 24px;
     font-size: 16px;
     color: white;
-    background-color: black;
-    border: 2px solid black;
+    background-color: #E195AB;
+    border: 2px solid #FFE2E2;
     text-align: center;
     text-decoration: none;
     transition: all 0.3s ease-in-out;
@@ -186,7 +287,7 @@ html, body {
 .filter-list a:hover,
 .filter-list a.active {
     font-weight: bold;
-    color: #007bff;
+    color: #F875AA;
 }
 
 /* Gaya Gambar */
@@ -210,34 +311,624 @@ html, body {
     flex-direction: column;
     justify-content: space-between;
 }
-
-.footer {
-    background-color: #8B4513 !important; /* Warna coklat */
-    color: white !important; /* Warna teks */
-    text-align: center !important; /* Teks di tengah */
-    padding: 15px 0 !important; /* Ruang atas dan bawah */
-    width: 100% !important; /* Pastikan lebarnya penuh */
+/* Style untuk gambar */
+.about-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    
 }
 
-.small-textarea {
-    width: 100%;
-    height: 80px; /* Kurangi tinggi textarea */
-    resize: none;
-}
-/* Pembayaran Page Styles */
-.title {
-    text-align: center;
-    font-size: 28px;
+/* Style untuk judul */
+.about-title {
     font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    margin-bottom: 30;
+}
+
+/* Style untuk teks paragraf */
+.about-text {
+    text-align: justify;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #333;
+    
+}
+.review-mini {
+    background-color: #FAF1E6;
+    padding: 12px 16px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: 0.3s ease;
+}
+.review-mini:hover {
+    background-color: #F0EBE3;
+}
+
+/* Section: WHY CHOOSE US */
+.why-choose-section {
+    background-color: #e7cccc; /* warna pink muda */
+    padding: 60px 0;
+    border-radius: 0px;
+}
+
+.why-choose-section h2 {
+    font-family: 'Georgia', serif;
+    font-weight: bold;
+    font-size: 2.0rem;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.why-box {
+    background-color: white;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.why-box:hover {
+    transform: translateY(-5px);
+}
+
+.why-box img {
+    width: 48px;
     margin-bottom: 20px;
 }
 
-.box {
-    padding: 12px;
-    background-color: #ffffff;
-    border-left: 5px solid #28a745; /* Garis hijau di kiri */
-    border-radius: 5px;
-    margin-bottom: 12px;
-    transition: background 0.3s ease-in-out;
+.why-box h5 {
+    font-weight: bold;
+    color: #000;
 }
 
+.why-box p {
+    font-size: 0.95rem;
+    color: #555;
+}
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    border-radius: 1rem;
+}
+
+.card-header {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+label {
+    font-weight: 500;
+}
+
+
+/* Kalau masih ada gambar di dalam kolom */
+.container .col-md-4 img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+
+}
+/* Button Primary - warna pink pastel */
+.btn-primary {
+    background-color: #FF8282;
+    color: white;
+    border: none;
+    padding: 8px 16px; /* Tambahkan padding untuk memberi ruang */
+    border-radius: 8px; /* Biar nggak terlalu lancip, tapi tetap rapi */
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Sedikit bayangan */
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Hover efek lebih gelap sedikit */
+.btn-primary:hover {
+    background-color: #FF9A9A; /* Versi lebih gelap dari #FF8282 */
+    transform: translateY(-2px);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Shadow lebih besar saat hover */
+}
+
+/* Fokus dan aktif hilangkan outline biru */
+.btn-primary:focus,
+.btn-primary:active {
+    outline: none;
+    box-shadow: none;
+}
+
+
+
+/* ===============================
+   ORDER PAGE ONLY
+   =============================== */
+   .order-page {
+    padding: 80px 20px;
+    background-color: #fefefe;
+}
+
+.order-page h2 {
+    color: #ee9999;
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.order-page form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.order-page label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+    color: #555;
+}
+
+.order-page input,
+.order-page textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    transition: 0.2s ease-in-out;
+}
+
+.order-page input:focus,
+.order-page textarea:focus {
+    border-color: #ee9999;
+    box-shadow: 0 0 8px rgba(238, 153, 153, 0.2);
+    outline: none;
+}
+
+.order-page button[type="submit"] {
+    background-color: #FF8282;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.order-page button[type="submit"]:hover {
+    background-color: #FF9A9A;
+    box-shadow: 0 6px 16px rgba(238, 153, 153, 0.3);
+}
+
+
+
+
+.footer {
+    background-color: #fff;
+    color: #555;
+}
+
+.footer-link {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #555;
+    font-weight: bold;
+}
+
+.footer-link:hover {
+    color: #000;
+}
+
+.social-icon {
+    margin: 0 10px;
+    font-size: 20px;
+    color: #555;
+}
+
+.social-icon:hover {
+    color: #000;
+}
+
+.payment-icon {
+    width: 60px;
+    margin: 5px;
+}
+
+.copyright {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #777;
+}
+/* === ABOUT PAGE STYLE === */
+
+/* Container utama about */
+.about-container {
+    padding: 60px 15px;
+    background-color: #fffaf5;
+}
+
+/* Judul About */
+.about-container h2 {
+    font-size: 36px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #4b715d;
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.about-container h2::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: #4b715d;
+    margin: 10px auto 0 auto;
+}
+
+/* Gambar bunga melingkar */
+.about-flower-wrapper {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    background-color: #ead1d1;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-flower-wrapper img {
+    position: absolute;
+}
+
+.about-flower-wrapper img:nth-child(1) {
+    left: 0;
+    bottom: 0;
+    width: 130px;
+}
+
+.about-flower-wrapper img:nth-child(2) {
+    width: 180px;
+}
+
+.about-flower-wrapper img:nth-child(3) {
+    right: 0;
+    bottom: 0;
+    width: 130px;
+}
+
+/* Deskripsi text */
+.about-description {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.8;
+}
+
+.about-description strong {
+    color: #b19574;
+}
+
+.btn-bouquet {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #FF8282;
+    color: white;
+    font-family: "Arial", serif;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .btn-bouquet:hover {
+    background-color: #FF9A9A;
+    transform: scale(1.05);
+  }
+  
+  .btn-bouquet:active {
+    background-color: #F2D1D1;
+    transform: scale(0.98);
+  }
+
+  .table-header-custom th {
+  background-color: #F6D6D6!important; /* pink pastel */
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+.table-header-custom th {
+  padding: 12px;
+  border-bottom: 2px solid #ffb6c1;
+}
+
+.table tbody td {
+  padding: 10px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Optional: Table borders */
+.table {
+  border: 1px solid black;
+}
+
+.table td, .table th {
+  border: 1px solid black;
+}
+
+/* --- Section Produk di Cart --- */
+.border-bottom {
+    border-bottom: 1px solid #e1e1e1 !important;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    transition: background 0.3s;
+}
+
+.border-bottom:hover {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+
+/* Gambar produk */
+.border-bottom img {
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Nama Produk */
+.border-bottom h5 {
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+/* Harga satuan */
+.text-muted {
+    font-size: 14px;
+    color: #7f8c8d !important;
+}
+
+/* Tombol + dan - */
+.btn-outline-secondary.btn-sm {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    font-size: 18px;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.btn-outline-secondary.btn-sm:hover {
+    background-color: #2ecc71;
+    color: #fff;
+    border-color: #2ecc71;
+}
+
+/* Input jumlah */
+input.form-control.text-center {
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+/* --- Section Catatan --- */
+textarea#note {
+    height: 160px;
+    resize: vertical;
+    border-radius: 12px;
+    font-size: 14px;
+    padding: 10px 15px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+    border: 1px solid #ccc;
+    transition: all 0.3s;
+}
+
+textarea#note:focus {
+    border-color: #2ecc71;
+    box-shadow: 0 0 8px rgba(46, 204, 113, 0.3);
+}
+
+/* --- Section Form Checkout --- */
+#checkoutForm {
+    background: #fefefe;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.04);
+}
+
+#checkoutForm label {
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #34495e;
+}
+
+#checkoutForm input, 
+#checkoutForm textarea, 
+#checkoutForm select {
+    border-radius: 10px;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+#checkoutForm input:focus, 
+#checkoutForm textarea:focus, 
+#checkoutForm select:focus {
+    border-color: #2ecc71;
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.25);
+}
+
+/* --- Section Total Harga --- */
+h5.mt-3 {
+    text-align: right;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* --- Teks keranjang kosong --- */
+.text-center p {
+    color: #7f8c8d;
+}
+table.table {
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+table.table th {
+    background-color: #FF9A9A;
+    color: white;
+    font-family: 'Bodoni Moda', serif;
+}
+
+table.table td {
+    vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #fff0f0;
+}
+
+/* General Styles */
+
+.nota-wrapper {
+    margin-top: 20px;
+}
+
+.nota-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.nota-header {
+    background-color: #125B9A;
+    padding: 10px;
+    border-radius: 8px 8px 0 0;
+}
+
+.nota-body {
+    padding: 20px;
+}
+
+.nota-info {
+    margin-bottom: 20px;
+}
+
+.nota-info p {
+    font-size: 16px;
+    color: #333;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table th {
+    background-color: #f8f9fa;
+}
+
+.nota-footer {
+    margin-top: 20px;
+}
+
+.nota-footer .btn {
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.nota-footer .btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.nota-footer .btn-danger {
+    background-color: #ca2f3e;
+    border: none;
+}
+
+.nota-footer .btn:hover {
+    opacity: 0.9;
+}
+
+/* Table styles */
+.text-left {
+    text-align: left !important;
+}
+
+.table-bordered {
+    border: 1px solid #FFEAE3;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+.invoice-wrapper {
+    max-width: 800px;
+    margin: auto;
+    background: #FFB4C2;
+    border: 1px solid #e0e0e0;
+    padding: 40px;
+    font-family: 'Helvetica Neue', sans-serif;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.invoice-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.invoice-header h2 {
+    font-size: 24px;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+.section-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.info-block {
+    margin-bottom: 20px;
+}
+
+.total-label {
+    font-weight: bold;
+}
+
+.invoice-box {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    background: #FFCBCB;
+}
+
+.form-select, .form-control {
+    border-radius: 6px;
+}
+
+.btn-success {
+    font-weight: 600;
+}
+
+.modal-content {
+    border-radius: 12px;
+}

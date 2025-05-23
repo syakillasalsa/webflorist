@@ -28,6 +28,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => 'user', // default role
         ]);
 
         // Auto-login setelah registrasi
@@ -41,55 +42,36 @@ class AuthController extends Controller
     {
         return view('halaman.login');
     }
-    public function prosesLogin(Request $request)
+
+    // Proses login
+    public function authenticate(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required|min:6',
         ]);
 
-        $user = \DB::table('users')
-            ->where('email', $request->email)
-            ->where('password', $request->password) // kalau pakai hash, ganti pakai Hash::check
-            ->first();
+        // Cek apakah user ada
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return redirect()->route('register')->with('error', 'Email belum terdaftar. Silakan registrasi terlebih dahulu.');
+        }
 
-        if ($user) {
-            session(['user' => $user]);
+        // Cek password valid
+        if (!Auth::attempt($credentials)) {
+            return back()->withErrors(['email' => 'Email atau password salah!']);
+        }
 
-            if ($user->role === 'admin') {
-                return redirect()->route('admin.home');
-            } else {
-                return redirect()->route('user.home');
-            }
+        // Jika login berhasil
+        $request->session()->regenerate();
+
+        // Arahkan sesuai role
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('admin.home');
         } else {
-            return redirect()->back()->withErrors(['Login gagal! Email atau password salah.']);
+            return redirect()->route('home')->with('success', 'Login berhasil!');
         }
     }
-    // Proses login
-    // Proses login
-public function authenticate(Request $request)
-{
-    $credentials = $request->validate([
-        'email' => 'required|email',
-        'password' => 'required|min:6',
-    ]);
-
-    // Cek apakah email ada di database
-    $user = User::where('email', $request->email)->first();
-    if (!$user) {
-        return redirect()->route('register')->with('error', 'Email belum terdaftar. Silakan registrasi terlebih dahulu.');
-    }
-
-    // Cek apakah password cocok
-    if (!Auth::attempt($credentials)) {
-        return back()->withErrors(['email' => 'Email atau password salah!']);
-    }
-
-    // Jika login berhasil, arahkan ke halaman menu
-    $request->session()->regenerate();
-    return redirect()->route('home')->with('success', 'Login berhasil!');
-}
-
 
     // Proses logout
     public function logout(Request $request)

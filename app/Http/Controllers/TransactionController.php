@@ -9,6 +9,8 @@ use App\Models\Bouquet;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class TransactionController extends Controller
 {
@@ -185,5 +187,12 @@ class TransactionController extends Controller
     $transaction = Transaction::with(['user', 'transactionItems.bouquet'])->findOrFail($id);
     return view('halaman.payment_success', compact('transaction'));
 }
+public function download($id)
+{
+    $transaction = Transaction::with(['transactionItems.bouquet', 'user'])->findOrFail($id);
 
+    $pdf = Pdf::loadView('transactions.pdf', compact('transaction'));
+
+    return $pdf->download('nota-transaksi-' . $transaction->id . '.pdf');
+}
 }

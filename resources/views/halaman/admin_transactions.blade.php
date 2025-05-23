@@ -1,23 +1,23 @@
-@extends('mainlayout')
+@extends('layouts.admin')
 
 @section('content')
 <div class="container mt-5">
     <div class="card shadow-lg">
         <div class="card-header bg-dark text-white">
-            <h4 class="mb-0">Riwayat Transaksi</h4>
+            <h4 class="mb-0">Transaction History</h4>
         </div>
         <div class="card-body">
             <table class="table table-striped table-bordered">
                 <thead class="table-dark">
                     <tr>
                         <th>ID</th>
-                        <th>Nama Pelanggan</th>
-                        <th>Metode Pembayaran</th>
-                        <th>Metode Pengiriman</th>
+                        <th>Name Customer</th>
+                        <th>Payment Method</th>
+                        <th>Delivery Method</th>
                         <th>Status</th>
-                        <th>Total Pembayaran</th>
-                        <th>Tanggal Transaksi</th>
-                        <th>Aksi</th>
+                        <th>Totals Payment</th>
+                        <th>Date Transaction</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,7 +38,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center">Tidak ada transaksi.</td>
+                            <td colspan="8" class="text-center">No Transaction Available</td>
                         </tr>
                     @endforelse
                 </tbody>

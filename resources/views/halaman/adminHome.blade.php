@@ -1,84 +1,78 @@
-@extends('mainlayout')
+@extends('layouts.admin')
 
 @section('title', 'Dashboard Admin')
 
 @section('content')
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alumni+Sans:ital,wght@0,100..900;1,100..900&family=Athiti:wght@200;300;400;500;600;700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Satisfy&display=swap" rel="stylesheet">
+
+
 <div class="container mt-5">
     <div class="row">
         <div class="col-12 text-center">
-            <h1>Selamat datang di Dashboard Admin</h1>
-            <p>Kelola menu, transaksi, dan admin melalui dashboard ini.</p>
+            <h1>Welcome Admin</h1>
+            <p>Manage menus, transactions, and admin through this dashboard</p>
         </div>
     </div>
 
+    <!-- Statistik -->
     <div class="row mt-4">
-        <!-- Statistik Menu -->
-        <div class="col-md-4">
-            <div class="card text-white bg-primary mb-4">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Total Menu</h5>
-                    <p class="card-text">{{ $totalMenu }}</p>
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-primary shadow-lg">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <i class="bi bi-boxes" style="font-size: 2rem;"></i>
+                    <div class="text-center">
+                        <h5 class="card-title">Menu Totals</h5>
+                        <p class="card-text fs-4">{{ $totalMenu }}</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Statistik Transaksi -->
-        <div class="col-md-4">
-            <div class="card text-white bg-success mb-4">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Total Transaksi</h5>
-                    <p class="card-text">{{ $totalTransactions }}</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Statistik Admin -->
-        <div class="col-md-4">
-            <div class="card text-white bg-warning mb-4">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Total Admin</h5>
-                    <p class="card-text">{{ $totalAdmins }}</p>
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-success shadow-lg">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <i class="bi bi-cart-check" style="font-size: 2rem;"></i>
+                    <div class="text-center">
+                        <h5 class="card-title">Transactions Totals</h5>
+                        <p class="card-text fs-4">{{ $totalTransactions }}</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Quick Actions -->
-    <div class="row mt-4">
-        <div class="col-md-4">
-            <a href="{{ route('menu.filter') }}" class="btn btn-primary btn-lg btn-block">Kelola Menu</a>
-        </div>
-        <div class="col-md-4">
-            <a href="{{ route('admin.transactions') }}" class="btn btn-success btn-lg btn-block">Lihat Transaksi</a>
-        </div>
-        <div class="col-md-4">
-            <a href="{{ route('admin.transactions') }}" class="btn btn-warning btn-lg btn-block">Kelola Admin</a>
+    <!-- Grafik Penjualan -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <h4>Monthly Sales Chart</h4>
+            <canvas id="salesChart"></canvas>
         </div>
     </div>
 
     <!-- Aktivitas Terbaru -->
     <div class="row mt-5">
         <div class="col-12">
-            <h4>Aktivitas Terbaru</h4>
-            
+            <h4>New Activity</h4>
             @if($recentActivities->isEmpty())
-                <p>Tidak ada aktivitas terbaru.</p>
+                <p>No recent activity</p>
             @else
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Nama Aktivitas</th>
-                            <th>Tanggal</th>
+                            <th>Activity Name</th>
+                            <th>Date</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($recentActivities as $activity)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $activity->description }}</td> <!-- Ganti dengan kolom yang sesuai di Transaction -->
-                            <td>{{ $activity->created_at->format('d-m-Y H:i') }}</td>
-                        </tr>
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $activity->description }}</td>
+                                <td>{{ $activity->created_at->format('d-m-Y H:i') }}</td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -86,12 +80,53 @@
         </div>
     </div>
 
-    <!-- Grafik Statistik (Opsional) -->
-    <div class="row mt-5">
-        <div class="col-12">
-            <h4>Grafik Statistik Menu</h4>
-            <div id="menuChart"></div>
-        </div>
-    </div>
 </div>
+
 @endsection
+
+@push('scripts')
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> {{-- Tambahkan ini --}}
+<script>
+    var ctx = document.getElementById('salesChart').getContext('2d');
+    var salesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {!! json_encode(array_map(fn($m) => "Bulan $m", $months)) !!},
+            datasets: [{
+                label: 'Penjualan (IDR)',
+                data: {!! json_encode($salesData) !!},
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Grafik Penjualan Bulanan'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return 'Rp ' + tooltipItem.raw.toLocaleString();
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return 'Rp ' + value.toLocaleString();
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+@endpush
