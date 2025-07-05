@@ -99,7 +99,7 @@ Masukan, ide, dan bug report sangat dihargai 💡
 
 ---
 
-Jika kamu punya **screenshot tampilan** dari websitenya, bisa kita tambahkan juga bagian "🖼️ Preview Tampilan" di atas. Mau sekalian dibantu buatkan?
+
 ```
 
 
