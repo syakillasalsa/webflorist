@@ -1,3 +1,107 @@
+
+# 🌸 WebFlorist
+
+A beautiful and functional florist website built with Laravel—perfect for showcasing bouquets, handling orders, and managing users (admin & customers).
+
+---
+
+## 🎯 Fitur Utama
+
+- Galeri produk bunga lengkap dengan foto, deskripsi, dan harga  
+- Sistem pemesanan online untuk pelanggan  
+- Panel admin untuk CRUD produk, kategori, dan pesanan  
+- Autentikasi multi-role: Admin dan Customer  
+- Rute bersih dan terstruktur dengan Laravel MVC
+
+---
+
+## 🔐 Admin Access
+
+Login sebagai admin untuk mengelola produk dan pesanan:
+
+- **Email**: `admin@florist.com`  
+- **Password**: `123456`
+
+---
+
+## 🚀 Cara Instalasi & Menjalankan
+
+1. **Clone repo**  
+   ```bash
+   git clone https://github.com/syakillasalsa/webflorist.git
+   cd webflorist
+````
+
+2. **Install dependencies**
+
+   ```bash
+   composer install
+   npm install
+   npm run dev
+   ```
+
+3. **Konfigurasi environment**
+
+   * Copy `.env.example` ke `.env`
+   * Isi DB\_NAME, DB\_USER, DB\_PASS sesuai setup MySQL
+   * Set `APP_URL=http://localhost`
+
+4. **Migration & seeding awal** (termasuk admin default)
+
+   ```bash
+   php artisan migrate --seed
+   ```
+
+5. **Jalankan server Laravel**
+
+   ```bash
+   php artisan serve
+   ```
+
+   Akses di browser: `http://localhost:8000`
+
+---
+
+## 🧩 Struktur Proyek
+
+```
+app/            • Logika aplikasi & model  
+config/         • Pengaturan framework  
+database/       • Migration & Seeder (admin default)  
+public/         • Frontend assets (CSS, JS, gambar)  
+resources/      • Blade views & SASS  
+routes/         • Web routing  
+tests/          • Unit & feature tests  
+```
+
+---
+
+## 🛠 Rencana Pengembangan Berikutnya
+
+* Tambah fitur registrasi & profil pelanggan
+* Integrasi gateway pembayaran online
+* Dashboard admin & laporan statistik
+* Pencarian produk & filter kategori
+
+---
+
+## 📜 Lisensi
+
+MIT License — silakan fork, modifikasi, dan gunakan secara bebas!
+
+---
+
+## 🤝 Kontribusi
+
+Fork repo ini → Buat branch baru → Ajukan Pull Request.
+Saran & bug report sangat disambut 😊
+
+```
+
+---
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
