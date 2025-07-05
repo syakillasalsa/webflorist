@@ -1,38 +1,38 @@
 
+````markdown
 # 🌸 WebFlorist
 
-A beautiful and functional florist website built with Laravel—perfect for showcasing bouquets, handling orders, and managing users (admin & customers).
+Aplikasi website florist berbasis Laravel untuk mengelola produk buket bunga, pesanan pelanggan, dan akses admin dengan antarmuka yang modern dan responsif.
 
 ---
 
 ## 🎯 Fitur Utama
 
-- Galeri produk bunga lengkap dengan foto, deskripsi, dan harga  
-- Sistem pemesanan online untuk pelanggan  
-- Panel admin untuk CRUD produk, kategori, dan pesanan  
-- Autentikasi multi-role: Admin dan Customer  
-- Rute bersih dan terstruktur dengan Laravel MVC
+- 🛒 Galeri produk lengkap (foto, deskripsi, dan harga)
+- 📦 Sistem pemesanan keranjang hingga checkout
+- 🔐 Autentikasi multi-role: Admin & Customer
+- 🧑‍💻 Dashboard admin untuk CRUD produk & kelola pesanan
+- 📱 Tampilan responsif dan user-friendly
 
 ---
 
-## 🔐 Admin Access
+## 🔐 Kredensial Login
 
-Login sebagai admin untuk mengelola produk dan pesanan:
-
-- **Email**: `admin@florist.com`  
-- **Password**: `123456`
+| Role   | Email              | Password |
+|--------|--------------------|----------|
+| Admin  | admin@florist.com  | 123456   |
 
 ---
 
 ## 🚀 Cara Instalasi & Menjalankan
 
-1. **Clone repo**  
+1. **Clone Repository**
    ```bash
    git clone https://github.com/syakillasalsa/webflorist.git
    cd webflorist
 ````
 
-2. **Install dependencies**
+2. **Install Dependencies**
 
    ```bash
    composer install
@@ -40,65 +40,65 @@ Login sebagai admin untuk mengelola produk dan pesanan:
    npm run dev
    ```
 
-3. **Konfigurasi environment**
+3. **Salin dan Atur File `.env`**
 
-   * Copy `.env.example` ke `.env`
-   * Isi DB\_NAME, DB\_USER, DB\_PASS sesuai setup MySQL
-   * Set `APP_URL=http://localhost`
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-4. **Migration & seeding awal** (termasuk admin default)
+   * Edit `.env` dan isi konfigurasi database (`DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`)
+
+4. **Migrasi Database & Seeder**
 
    ```bash
    php artisan migrate --seed
    ```
 
-5. **Jalankan server Laravel**
+5. **Jalankan Server Laravel**
 
    ```bash
    php artisan serve
    ```
 
-   Akses di browser: `http://localhost:8000`
+   Akses di browser: [http://localhost:8000](http://localhost:8000)
 
 ---
 
-## 🧩 Struktur Proyek
+## 🗂️ Struktur Proyek
 
-```
-app/            • Logika aplikasi & model  
-config/         • Pengaturan framework  
-database/       • Migration & Seeder (admin default)  
-public/         • Frontend assets (CSS, JS, gambar)  
-resources/      • Blade views & SASS  
-routes/         • Web routing  
-tests/          • Unit & feature tests  
-```
+* **`app/`** – Logika aplikasi dan model
+* **`routes/web.php`** – Routing utama
+* **`resources/views/`** – Blade template untuk frontend & admin
+* **`database/migrations/`** – Struktur tabel database
+* **`public/`** – Asset frontend (gambar, CSS, JS)
 
 ---
 
-## 🛠 Rencana Pengembangan Berikutnya
+## 🔧 Rencana Pengembangan Selanjutnya
 
-* Tambah fitur registrasi & profil pelanggan
-* Integrasi gateway pembayaran online
-* Dashboard admin & laporan statistik
-* Pencarian produk & filter kategori
+* ✨ Fitur registrasi customer
+* 🧾 Laporan dan dashboard admin
+* 📊 Grafik penjualan dan statistik
+* 💳 Integrasi pembayaran digital
 
 ---
 
-## 📜 Lisensi
+## 📄 Lisensi
 
-MIT License — silakan fork, modifikasi, dan gunakan secara bebas!
+MIT License – Bebas digunakan dan dimodifikasi.
 
 ---
 
 ## 🤝 Kontribusi
 
-Fork repo ini → Buat branch baru → Ajukan Pull Request.
-Saran & bug report sangat disambut 😊
+Terbuka untuk kontribusi!
+Fork, buat branch baru, lalu ajukan Pull Request.
+Masukan, ide, dan bug report sangat dihargai 💡
 
 ```
 
----
+
 
 
 
