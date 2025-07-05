@@ -1,36 +1,35 @@
-
-````markdown
 # 🌸 WebFlorist
 
-Aplikasi website florist berbasis Laravel untuk mengelola produk buket bunga, pesanan pelanggan, dan akses admin dengan antarmuka yang modern dan responsif.
+A beautiful and functional florist website built with Laravel—perfect for showcasing bouquets, handling orders, and managing users (admin & customers).
 
 ---
 
 ## 🎯 Fitur Utama
 
-- 🛒 Galeri produk lengkap (foto, deskripsi, dan harga)
-- 📦 Sistem pemesanan keranjang hingga checkout
-- 🔐 Autentikasi multi-role: Admin & Customer
-- 🧑‍💻 Dashboard admin untuk CRUD produk & kelola pesanan
-- 📱 Tampilan responsif dan user-friendly
+- Galeri produk bunga lengkap dengan foto, deskripsi, dan harga  
+- Sistem pemesanan online untuk pelanggan  
+- Panel admin untuk CRUD produk, kategori, dan pesanan  
+- Autentikasi multi-role: Admin dan Customer  
+- Rute bersih dan terstruktur dengan Laravel MVC
 
 ---
 
-## 🔐 Kredensial Login
+## 🔐 Admin Access
 
-| Role   | Email              | Password |
-|--------|--------------------|----------|
-| Admin  | admin@florist.com  | 123456   |
+Login sebagai admin untuk mengelola produk dan pesanan:
+
+- **Email**: `admin@florist.com`  
+- **Password**: `123456`
 
 ---
 
 ## 🚀 Cara Instalasi & Menjalankan
 
-1. **Clone Repository**
+1. **Clone repo**  
    ```bash
    git clone https://github.com/syakillasalsa/webflorist.git
    cd webflorist
-````
+
 
 2. **Install Dependencies**
 
@@ -96,6 +95,11 @@ Terbuka untuk kontribusi!
 Fork, buat branch baru, lalu ajukan Pull Request.
 Masukan, ide, dan bug report sangat dihargai 💡
 
+```
+
+---
+
+Jika kamu punya **screenshot tampilan** dari websitenya, bisa kita tambahkan juga bagian "🖼️ Preview Tampilan" di atas. Mau sekalian dibantu buatkan?
 ```
 
 
